@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>EduGenie – Study Smarter with AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --navy:      #060D1F;
+            --navy2:     #0B1530;
+            --navy3:     #0F2050;
+            --primary:   #1E3A8A;
+            --blue:      #2563EB;
+            --blueviv:   #3B82F6;
+            --cyan:      #22D3EE;
+            --white:     #FFFFFF;
+            --w80:       rgba(255,255,255,0.80);
+            --w50:       rgba(255,255,255,0.50);
+            --w10:       rgba(255,255,255,0.08);
+            --card:      rgba(255,255,255,0.05);
+            --cardb:     rgba(255,255,255,0.10);
+            --fd: 'Sora', sans-serif;
+            --fb: 'DM Sans', sans-serif;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--fb);
+            background: var(--navy);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 70% 10%, rgba(37,99,235,.18) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 20% 80%, rgba(30,58,138,.20) 0%, transparent 55%),
+                radial-gradient(ellipse 40% 40% at 90% 90%, rgba(34,211,238,.06) 0%, transparent 50%);
+            pointer-events: none; z-index: 0;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1rem 3rem;
+            background: rgba(6,13,31,.75);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--w10);
+        }
+        .nav-logo {
+            display: flex; align-items: center; gap: .6rem;
+            font-family: var(--fd); font-size: 1.3rem; font-weight: 800;
+            color: var(--cyan); text-decoration: none;
+        }
+        .nav-actions { display: flex; align-items: center; gap: 1rem; }
+        .btn-ghost {
+            background: transparent; color: var(--w80); border: none;
+            padding: .5rem 1.2rem; font-family: var(--fb); font-size: .95rem;
+            font-weight: 500; cursor: pointer; border-radius: 8px;
+            text-decoration: none; transition: color .2s;
+        }
+        .btn-ghost:hover { color: var(--white); }
+        .btn-cta {
+            background: var(--blue); color: var(--white); border: none;
+            padding: .55rem 1.4rem; font-family: var(--fb); font-size: .95rem;
+            font-weight: 600; cursor: pointer; border-radius: 10px;
+            text-decoration: none; transition: all .2s;
+        }
+        .btn-cta:hover { background: var(--blueviv); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,.5); }
+
+        /* HERO */
+        .hero {
+            position: relative; z-index: 1;
+            min-height: 100vh;
+            display: flex; align-items: center;
+            padding: 7rem 3rem 4rem;
+            max-width: 1280px; margin: 0 auto; gap: 2rem;
+        }
+        .hero-left { flex: 1; display: flex; flex-direction: column; gap: 1.5rem; }
+        .badge {
+            display: inline-flex; align-items: center; gap: .5rem;
+            background: rgba(34,211,238,.10); border: 1px solid rgba(34,211,238,.25);
+            border-radius: 100px; padding: .4rem 1rem;
+            font-size: .85rem; font-weight: 600; color: var(--cyan); width: fit-content;
+        }
+        .hero h1 {
+            font-family: var(--fd); font-size: clamp(2.4rem,5vw,3.8rem);
+            font-weight: 800; line-height: 1.1; color: var(--white);
+        }
+        .hero h1 .hl {
+            background: linear-gradient(90deg, var(--cyan), var(--blueviv));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero p { font-size: 1.05rem; color: var(--w80); line-height: 1.7; max-width: 480px; }
+        .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-hp {
+            background: linear-gradient(135deg, var(--blue), var(--blueviv));
+            color: var(--white); border: none; padding: .85rem 2rem;
+            font-family: var(--fd); font-size: 1rem; font-weight: 700;
+            cursor: pointer; border-radius: 12px; transition: all .25s;
+            text-decoration: none; display: inline-flex; align-items: center; gap: .5rem;
+            box-shadow: 0 4px 20px rgba(37,99,235,.4);
+        }
+        .btn-hp:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(37,99,235,.6); }
+        .btn-ho {
+            background: transparent; color: var(--white);
+            border: 1.5px solid rgba(255,255,255,.3);
+            padding: .85rem 2rem; font-family: var(--fd); font-size: 1rem; font-weight: 600;
+            cursor: pointer; border-radius: 12px; transition: all .25s;
+            text-decoration: none; display: inline-flex; align-items: center;
+        }
+        .btn-ho:hover { background: var(--w10); border-color: rgba(255,255,255,.5); }
+
+        /* FLOATING CARDS */
+        .hero-right {
+            flex: 1; position: relative; height: 440px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .fc {
+            position: absolute;
+            background: rgba(30,58,138,.5); backdrop-filter: blur(12px);
+            border: 1px solid rgba(37,99,235,.4); border-radius: 18px;
+            padding: 1.2rem 1.5rem; min-width: 155px;
+            box-shadow: 0 8px 32px rgba(0,0,0,.3);
+            animation: float 6s ease-in-out infinite;
+        }
+        .fc .fi { font-size: 1.8rem; margin-bottom: .3rem; }
+        .fc .fl { font-family: var(--fd); font-size: .9rem; font-weight: 700; color: var(--white); }
+        .fc1 { top: 20px;  right: 60px;  animation-delay: 0s; }
+        .fc2 { top: 15px;  right:-15px;  animation-delay: 1.5s; }
+        .fc3 { bottom:90px; right:35px;  animation-delay: 0.8s; }
+        .fc4 { bottom:70px; right:-25px; animation-delay: 2.2s; }
+        .mascot {
+            position: absolute; bottom: 20px; right: 100px;
+            font-size: 7rem; animation: float 4s ease-in-out infinite;
+            animation-delay: .5s; filter: drop-shadow(0 10px 30px rgba(34,211,238,.2));
+        }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+
+        .scroll-hint {
+            position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+            color: var(--w50); font-size: .75rem; letter-spacing: 1px;
+            text-transform: uppercase; animation: pulse 2s ease-in-out infinite;
+            display: flex; flex-direction: column; align-items: center; gap: .3rem;
+        }
+        @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+        /* STATS */
+        .stats {
+            position: relative; z-index: 1;
+            display: flex; justify-content: center; gap: 4rem;
+            padding: 3rem; flex-wrap: wrap;
+        }
+        .stat { text-align: center; }
+        .stat-num { font-family: var(--fd); font-size: 2rem; font-weight: 800; color: var(--cyan); }
+        .stat-lbl { font-size: .85rem; color: var(--w80); margin-top: .2rem; }
+
+        /* SECTION */
+        .section {
+            position: relative; z-index: 1;
+            padding: 5rem 3rem; max-width: 1280px; margin: 0 auto;
+        }
+        .sec-hdr { text-align: center; margin-bottom: 3rem; }
+        .sec-hdr h2 {
+            font-family: var(--fd); font-size: clamp(1.8rem,3.5vw,2.6rem);
+            font-weight: 800; color: var(--white); margin-bottom: .6rem;
+        }
+        .sec-hdr p { color: var(--w80); font-size: 1rem; max-width: 500px; margin: 0 auto; line-height: 1.6; }
+
+        /* FEATURE GRID */
+        .feat-grid {
+            display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem;
+        }
+        .feat-card {
+            background: var(--card); border: 1px solid var(--cardb);
+            border-radius: 20px; padding: 2rem;
+            transition: all .3s; position: relative; overflow: hidden;
+        }
+        .feat-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg,rgba(37,99,235,.12),transparent);
+            opacity: 0; transition: opacity .3s;
+        }
+        .feat-card:hover { border-color: rgba(37,99,235,.5); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(37,99,235,.2); }
+        .feat-card:hover::before { opacity: 1; }
+        .feat-card.featured { background: linear-gradient(135deg,rgba(37,99,235,.3),rgba(30,58,138,.4)); border-color: rgba(37,99,235,.5); }
+        .feat-icon {
+            width: 48px; height: 48px; border-radius: 14px;
+            background: rgba(37,99,235,.2); border: 1px solid rgba(37,99,235,.3);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; margin-bottom: 1.2rem;
+        }
+        .feat-card.featured .feat-icon { background: rgba(34,211,238,.15); border-color: rgba(34,211,238,.3); }
+        .feat-card h3 { font-family: var(--fd); font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: .5rem; }
+        .feat-card.featured h3 { color: var(--cyan); }
+        .feat-card p { font-size: .88rem; color: var(--w80); line-height: 1.6; }
+
+        /* HOW IT WORKS */
+        .steps { display: flex; gap: 1rem; align-items: stretch; margin-top: 2.5rem; }
+        .step {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+            text-align: center; gap: 1rem; padding: 2rem 1.5rem;
+            background: var(--card); border: 1px solid var(--cardb); border-radius: 20px;
+        }
+        .step-num {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--fd); font-weight: 800; font-size: 1rem; color: var(--white);
+        }
+        .step h4 { font-family: var(--fd); font-size: 1rem; font-weight: 700; color: var(--white); }
+        .step p { font-size: .85rem; color: var(--w80); line-height: 1.6; }
+        .step-arr { color: var(--w50); font-size: 1.5rem; padding-top: 1rem; flex-shrink: 0; }
+
+        /* CTA BANNER */
+        .cta {
+            position: relative; z-index: 1;
+            margin: 0 3rem 5rem;
+            background: linear-gradient(135deg, var(--primary), var(--blue));
+            border-radius: 24px; padding: 3.5rem; text-align: center; overflow: hidden;
+        }
+        .cta::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse at center, rgba(34,211,238,.15) 0%, transparent 65%);
+        }
+        .cta h2 { font-family: var(--fd); font-size: clamp(1.6rem,3vw,2.4rem); font-weight: 800; color: var(--white); margin-bottom: .6rem; position: relative; }
+        .cta p  { color: var(--w80); margin-bottom: 2rem; font-size: 1rem; position: relative; }
+
+        footer {
+            position: relative; z-index: 1; text-align: center; padding: 2rem;
+            color: var(--w50); font-size: .85rem; border-top: 1px solid var(--w10);
+        }
+
+        @media (max-width: 900px) {
+            nav { padding: 1rem 1.5rem; }
+            .hero { flex-direction: column; padding: 6rem 1.5rem 3rem; }
+            .hero-right { display: none; }
+            .feat-grid { grid-template-columns: 1fr; }
+            .steps { flex-direction: column; }
+            .step-arr { display: none; }
+            .section { padding: 3rem 1.5rem; }
+            .cta { margin: 0 1.5rem 3rem; padding: 2.5rem 1.5rem; }
+            .stats { gap: 2rem; padding: 2rem 1.5rem; }
+        }
+        @media (min-width:901px) and (max-width:1100px) { .feat-grid { grid-template-columns: repeat(2,1fr); } }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-logo">🧞 EduGenie</a>
+    <div class="nav-actions">
+        <a href="/login" class="btn-ghost">Login</a>
+        <a href="/login" class="btn-cta">Get Started</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-left">
+        <div class="badge">✨ AI-Powered Study Assistant</div>
+        <h1>Study Smarter with<br/><span class="hl">EduGenie</span></h1>
+        <p>Upload any textbook PDF and instantly get AI-generated notes, MCQ quizzes, and a context-aware doubt-solving chatbot.</p>
+        <div class="hero-btns">
+            <a href="/login" class="btn-hp">Start for Free →</a>
+            <a href="/login" class="btn-ho">Login</a>
+        </div>
+    </div>
+    <div class="hero-right">
+        <div class="fc fc1"><div class="fi">📄</div><div class="fl">Upload PDF</div></div>
+        <div class="fc fc2"><div class="fi">📝</div><div class="fl">AI Notes</div></div>
+        <div class="fc fc3"><div class="fi">🎯</div><div class="fl">MCQ Quiz</div></div>
+        <div class="fc fc4"><div class="fi">💬</div><div class="fl">Chatbot</div></div>
+        <div class="mascot">🧞</div>
+    </div>
+    <div class="scroll-hint"><span>scroll</span>↓</div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+    <div class="stat"><div class="stat-num">10K+</div><div class="stat-lbl">Students Using</div></div>
+    <div class="stat"><div class="stat-num">50K+</div><div class="stat-lbl">PDFs Processed</div></div>
+    <div class="stat"><div class="stat-num">98%</div><div class="stat-lbl">Accuracy Rate</div></div>
+    <div class="stat"><div class="stat-num">4.9★</div><div class="stat-lbl">Average Rating</div></div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+    <div class="sec-hdr">
+        <h2>Everything You Need to Ace Your Exams</h2>
+        <p>Powerful AI tools designed specifically for students who want results.</p>
+    </div>
+    <div class="feat-grid">
+        <div class="feat-card">
+            <div class="feat-icon">📤</div>
+            <h3>Smart PDF Upload</h3>
+            <p>Upload any textbook or lecture notes. Our system extracts all text automatically using PyPDF2.</p>
+        </div>
+        <div class="feat-card featured">
+            <div class="feat-icon">🤖</div>
+            <h3>AI Summarization</h3>
+            <p>Gemini AI transforms dense chapters into concise, exam-ready study notes in seconds.</p>
+        </div>
+        <div class="feat-card">
+            <div class="feat-icon">🎯</div>
+            <h3>MCQ Quiz Generator</h3>
+            <p>Auto-generate multiple-choice questions from any chapter and test your knowledge instantly.</p>
+        </div>
+        <div class="feat-card">
+            <div class="feat-icon">💬</div>
+            <h3>Doubt-Solving Chatbot</h3>
+            <p>Ask questions and get answers strictly from your textbook — no hallucinations, only facts.</p>
+        </div>
+        <div class="feat-card">
+            <div class="feat-icon">📊</div>
+            <h3>Performance Analytics</h3>
+            <p>Track your quiz scores over time and see exactly where you need to improve.</p>
+        </div>
+        <div class="feat-card">
+            <div class="feat-icon">☁️</div>
+            <h3>Cloud Database</h3>
+            <p>All your documents and scores are saved securely in MySQL — access anytime, anywhere.</p>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+    <div class="sec-hdr">
+        <h2>How It Works</h2>
+        <p>Three simple steps to transform how you study.</p>
+    </div>
+    <div class="steps">
+        <div class="step">
+            <div class="step-num">1</div>
+            <div style="font-size:2rem">📄</div>
+            <h4>Upload Your PDF</h4>
+            <p>Drop in any textbook, lecture notes, or study material. Text is extracted instantly.</p>
+        </div>
+        <div class="step-arr">→</div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <div style="font-size:2rem">⚡</div>
+            <h4>AI Processes It</h4>
+            <p>Gemini AI reads your content and generates notes, quizzes, and chat context automatically.</p>
+        </div>
+        <div class="step-arr">→</div>
+        <div class="step">
+            <div class="step-num">3</div>
+            <div style="font-size:2rem">🏆</div>
+            <h4>Study & Score Higher</h4>
+            <p>Use your personalized notes, take quizzes, and chat with AI to master the material.</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<div class="cta">
+    <h2>Ready to Study Smarter?</h2>
+    <p>Join thousands of students already using EduGenie to ace their exams.</p>
+    <a href="/login" class="btn-hp">Get Started for Free →</a>
+</div>
+
+<footer>© 2026 EduGenie · Built with ❤️ for students · Powered by Gemini AI</footer>
+
+</body>
+</html>

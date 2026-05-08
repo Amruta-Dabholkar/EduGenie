@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>EduGenie – Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body class="app-page">
+
+<aside class="sidebar">
+    <div class="sidebar-logo">🧞 EduGenie</div>
+    <nav class="sidebar-nav">
+        <a href="/dashboard" class="nav-item active">🏠 Dashboard</a>
+        <a href="/chat"      class="nav-item">💬 Doubt Solver</a>
+    </nav>
+    <div class="sidebar-footer">
+        <span class="sidebar-user" id="sidebarUser">User</span>
+        <button class="btn-logout" onclick="logout()">⬅ Logout</button>
+    </div>
+</aside>
+
+<main class="main-content">
+    <header class="page-header">
+        <div>
+            <h2>Dashboard</h2>
+            <p id="welcomeMsg">Welcome back!</p>
+        </div>
+    </header>
+
+    <!-- Upload -->
+    <section class="card" id="uploadSection">
+        <h3>📄 Upload PDF Textbook</h3>
+        <div class="upload-area" id="uploadArea"
+             onclick="document.getElementById('pdfInput').click()"
+             ondragover="event.preventDefault()"
+             ondrop="handleDrop(event)">
+            <div class="upload-icon">☁️</div>
+            <p>Click to upload or drag &amp; drop</p>
+            <span>Supports PDF files up to 50MB</span>
+        </div>
+        <input type="file" id="pdfInput" accept=".pdf" style="display:none" onchange="handleUpload(event)"/>
+        <div id="uploadStatus" class="status-msg hidden"></div>
+    </section>
+
+    <!-- PDF info bar -->
+    <div id="pdfInfoBar" class="pdf-info-bar hidden">
+        <span>📖 Loaded: <strong id="pdfName"></strong></span>
+        <span id="pdfPreview" class="text-muted small"></span>
+    </div>
+
+    <!-- Action cards -->
+    <section class="action-grid">
+        <div class="action-card" onclick="generateNotes()">
+            <div class="action-icon">📝</div>
+            <h4>Generate Notes</h4>
+            <p>Get a concise summary, key points, and definitions from your PDF.</p>
+        </div>
+        <div class="action-card" onclick="openQuizModal()">
+            <div class="action-icon">🎯</div>
+            <h4>Generate Quiz</h4>
+            <p>Auto-create MCQs to test yourself on the material.</p>
+        </div>
+        <div class="action-card" onclick="window.location.href='/chat'">
+            <div class="action-icon">💬</div>
+            <h4>Ask a Doubt</h4>
+            <p>Chat with the AI to clarify concepts from your book.</p>
+        </div>
+        <div class="action-card" onclick="loadScores()">
+            <div class="action-icon">📊</div>
+            <h4>My Scores</h4>
+            <p>View your quiz history and track your performance over time.</p>
+        </div>
+    </section>
+
+    <!-- Notes output -->
+    <section class="card hidden" id="notesSection">
+        <h3>📝 Study Notes</h3>
+        <div id="notesLoading" class="loading-spinner hidden"></div>
+        <div id="notesContent"></div>
+    </section>
+
+    <!-- Quiz output -->
+    <section class="card hidden" id="quizSection">
+        <h3>🎯 Quiz</h3>
+        <div id="quizLoading" class="loading-spinner hidden"></div>
+        <div id="quizContent"></div>
+        <button class="btn btn-primary" id="submitQuizBtn" onclick="submitQuiz()" style="display:none;margin-top:1rem">Submit Quiz</button>
+        <div id="quizResult" class="quiz-result hidden"></div>
+    </section>
+
+    <!-- Scores output -->
+    <section class="card hidden" id="scoresSection">
+        <h3>📊 Quiz History</h3>
+        <div id="scoresContent"></div>
+    </section>
+</main>
+
+<!-- Quiz modal -->
+<div class="modal-overlay hidden" id="quizModal">
+    <div class="modal">
+        <h3>🎯 Generate Quiz</h3>
+        <div class="form-group">
+            <label>Number of Questions</label>
+            <select id="numQuestions">
+                <option value="3">3 Questions</option>
+                <option value="5" selected>5 Questions</option>
+                <option value="10">10 Questions</option>
+            </select>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-outline" onclick="closeQuizModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="generateQuiz()">Generate</button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/script.js"></script>
+</body>
+</html>

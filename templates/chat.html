@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>EduGenie – Doubt Solver</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body class="app-page">
+
+<aside class="sidebar">
+    <div class="sidebar-logo">🧞 EduGenie</div>
+    <nav class="sidebar-nav">
+        <a href="/dashboard" class="nav-item">🏠 Dashboard</a>
+        <a href="/chat"      class="nav-item active">💬 Doubt Solver</a>
+    </nav>
+    <div class="sidebar-footer">
+        <span class="sidebar-user" id="sidebarUser">User</span>
+        <button class="btn-logout" onclick="logout()">⬅ Logout</button>
+    </div>
+</aside>
+
+<main class="main-content chat-layout">
+    <header class="page-header">
+        <div>
+            <h2>💬 Doubt Solver</h2>
+            <p>Ask any question about your uploaded PDF</p>
+        </div>
+        <button class="btn btn-outline small" onclick="clearChat()">🗑 Clear Chat</button>
+    </header>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-message bot-message">
+            <div class="message-bubble">
+                👋 Hi! I'm your study assistant. Upload a PDF from the dashboard, then ask me anything about it. I'll answer <strong>strictly based on your textbook content</strong>!
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-input-area">
+        <input type="text" id="chatInput"
+               placeholder="Ask a question… e.g. 'Explain Newton's second law'"
+               onkeydown="if(event.key==='Enter') sendMessage()"/>
+        <button class="btn-send" onclick="sendMessage()">Send ➤</button>
+    </div>
+</main>
+
+<script src="/static/js/script.js"></script>
+</body>
+</html>
