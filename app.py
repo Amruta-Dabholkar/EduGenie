@@ -1,6 +1,4 @@
-import webview
-import sys
-import threading
+
 import os
 from flask import Flask, render_template, request, jsonify, session
 from engine.db import get_user, register_user, save_score, get_scores
@@ -9,6 +7,9 @@ from engine.ai_bot import generate_quiz, generate_notes, answer_doubt
 from dotenv import load_dotenv
 
 load_dotenv()
+
+from engine.db import get_user, register_user, save_score, get_scores, init_db
+init_db()  # creates tables on first run
 
 server = Flask(__name__)
 server.secret_key = os.getenv("SECRET_KEY", "edugenie_secret_2026")
@@ -199,22 +200,5 @@ def get_scores_route():
 # ENTRY POINT
 # ──────────────────────────────────────────────
 
-def start_server():
-    server.run(host="127.0.0.1", port=5000, threaded=True, use_reloader=False)
-
-
 if __name__ == "__main__":
-    t = threading.Thread(target=start_server)
-    t.daemon = True
-    t.start()
-
-    webview.create_window(
-        "EduGenie – Intelligent Study Companion",
-        "http://127.0.0.1:5000",
-        width=1200,
-        height=800,
-        resizable=True,
-        min_size=(900, 600)
-    )
-    webview.start()
-    sys.exit()
+    server.run(host="0.0.0.0", port=5000)
